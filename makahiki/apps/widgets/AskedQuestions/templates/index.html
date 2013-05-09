@@ -1,0 +1,59 @@
+{% with old_que=view_objects.AskedQuestions %}
+
+<div class="content-box">
+    <div class="content-box-title">
+        My Questions
+    </div>
+      {% for entry in old_que.question_p %}
+    <div class="content-box-contents">
+    <form id="my-questions" action="{% url ask_que_question %}"
+                                 method="POST">
+        {% csrf_token %} 
+		{{entry.m_question}}
+		<input name="question-id" type="hidden" value='{{entry.id}}' />
+        <input id="myquestion" type="submit" value="View" class="btn btn-widget"/>
+        </br></br>
+     </form>     
+    </div>
+    {% endfor%}
+</div>
+
+
+<div class="content-box">
+    <div class="content-box-title">
+        Others Open Questions
+    </div>
+      {% for entry in old_que.question_o %}
+    <div class="content-box-contents">
+    <form id="my-questions" action="{% url ask_que_question %}"
+                                 method="POST">
+        {% csrf_token %} 
+		{{entry.m_question}}
+		<input name="question-id" type="hidden" value='{{entry.id}}' />
+        <input id="myquestion" type="submit" value="View" class="btn btn-widget"/>
+        </br></br>
+     </form>     
+    </div>
+    {% endfor%}
+</div>
+
+<div class="content-box">
+    <div class="content-box-title">
+        Others Closed Questions
+    </div>
+      {% for entry in old_que.question_c %}
+    <div class="content-box-contents">
+    <form id="my-questions" action="{% url ask_que_question %}"
+                                 method="POST">
+        {% csrf_token %} 
+		{{entry.m_question}}
+		<input name="question-id" type="hidden" value='{{entry.id}}' />
+        <input id="myquestion" type="submit" value="View" class="btn btn-widget"/>
+        </br></br>
+     </form>     
+    </div>
+    {% endfor%}
+</div>
+
+
+{% endwith %}

@@ -1,0 +1,67 @@
+{% with ret_ans=view_objects.ReturnAnswer %}
+
+
+ {% if ret_ans.question_p %}
+ {% if not ret_ans.question_p.m_user == ret_ans.currentuser %} 
+
+<div class="content-box">
+    <div class="content-box-title">
+            Please post your answer below
+    </div>
+    <div class="content-box-contents">
+        
+        
+        <form id="return-answer" action="{% url return_answer %}"
+                                 method="POST">
+        {% csrf_token %}     
+        
+        <div class="content-box-contents">    
+       {{ ret_ans.answer_p.m_answer }}
+        <textarea rows="5" name="answer" class="field span10"> {{ ret_ans.answer_p.m_answer }} </textarea>
+        </div>
+        <input id="answer-submit-button" type="submit" value="Post Answer" class="btn btn-widget"/>
+        </form>
+    </div>
+</div>
+
+ {% endif %}
+ {% endif %}
+
+
+<div class="content-box">
+  <div class="content-box-title">
+            Answers
+    </div>
+    
+     {% for entry in ret_ans.answer_p %}
+    <div class="content-box-contents">
+         <form id="other-answers" action="{% url return_answer %}"
+                                 method="POST">
+        {% csrf_token %} 
+		{{entry.m_answer}}
+		<table class="">
+        <tr>
+            <td>Give points to the answer</td>
+            <td><input id="radScoreStart" type="radio" name="Score" value="1" {% if feedback_p and feedback_p.rating == 5 %} checked {% endif %}/>1</label></td>
+            <td><input type="radio" name="Score" value="2" {% if feedback_p and feedback_p.rating == 4 %} checked {% endif %}/> 2</td>
+            <td><input type="radio" name="Score" value="3" {% if feedback_p and feedback_p.rating == 3 %} checked {% endif %}/> 3</td>
+            <td><input type="radio" name="Score" value="4" {% if feedback_p and feedback_p.rating == 2 %} checked {% endif %}/> 4</td>
+            <td><input type="radio" name="Score" value="5" {% if feedback_p and feedback_p.rating == 2 %} checked {% endif %}/> 5</td>
+            <td><input type="radio" name="Score" value="6" {% if feedback_p and feedback_p.rating == 2 %} checked {% endif %}/> 6</td>
+            <td><input type="radio" name="Score" value="7" {% if feedback_p and feedback_p.rating == 2 %} checked {% endif %}/> 7</td>
+            <td><input type="radio" name="Score" value="8" {% if feedback_p and feedback_p.rating == 2 %} checked {% endif %}/> 8</td>
+            <td><input type="radio" name="Score" value="9" {% if feedback_p and feedback_p.rating == 2 %} checked {% endif %}/> 9</td>
+            <td><input id="radScoreEnd" type="radio" name="Score" value="10" {% if feedback_p and feedback_p.rating == 1 %} checked {% endif %}/> 10</td>
+            <td><input id="points-submit-button" type="submit" value="Give Points" class="btn btn-widget"/></td>
+        </tr>
+    </table>
+		</form>
+    </div>
+    
+     {% endfor%}
+</div>        
+
+
+{% endwith %}
+
+<script src="{{STATIC_URL}}js/help.js" type="text/javascript"></script>

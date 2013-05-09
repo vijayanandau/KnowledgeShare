@@ -1,0 +1,82 @@
+{% extends "logo_bar_base.html" %}
+
+{% load markup %}
+
+{% block page_title %}
+    Welcome to Knowledge Center
+{% endblock %}
+
+
+{% block content %}
+    <div class="row-fluid">
+        <div class="content-box landing-body">
+            <div class="landing-intro">
+            {{ CHALLENGE.landing_introduction|markdown }}
+            </div>
+            <p>
+
+            <p>
+
+            <button id="landing-button-participant" class="btn btn-widget landing-button"
+                    onclick="show_auth_buttons()">
+                {{ CHALLENGE.landing_participant_text|markdown }}
+            </button>
+
+            <p/>
+            <div id="auth_buttons" style="display:none;">
+                {% if CHALLENGE.use_cas_auth %}
+                <button class="btn btn-widget landing-button-smaller"
+                        onclick="javascript:location.href='{% url home_index %}'">
+                    {{ CHALLENGE.cas_auth_text|markdown }}
+                </button>
+                <p/><p/>
+                {% endif %}
+                {% if CHALLENGE.use_ldap_auth %}
+                <button class="btn btn-widget landing-button-smaller"
+                        onclick="javascript:location.href='{% url account_login %}'">
+                    {{ CHALLENGE.ldap_auth_text|markdown }}
+                </button>
+                <p/><p/>
+                {% endif %}
+                {% if CHALLENGE.use_internal_auth %}
+                <button class="btn btn-widget landing-button-smaller"
+                        onclick="javascript:location.href='{% url account_login %}'">
+                    {{ CHALLENGE.internal_auth_text|markdown }}
+                </button>
+                {% endif %}
+            </div>
+
+            <p>
+            <button id="landing-button-non-participant" class="btn btn-widget landing-button"
+                    onclick="javascript:location.href='{% url about %}'">
+                {{ CHALLENGE.landing_non_participant_text|markdown }}
+            </button>
+
+        </div>
+    </div>
+   
+    <script type="text/javascript">
+
+        function show_auth_buttons() {
+            if (!jQuery.support.opacity) {
+                window.location.href = '{% url browser_check %}';
+            }
+            else {
+                {% if not CHALLENGE.is_multi_auth %}
+                    {% if CHALLENGE.use_cas_auth %}
+                        location.href='{% url home_index %}';
+                    {% else %}
+                        location.href='{% url account_login %}';
+                    {% endif %}
+                {% else %}
+                    $('#landing-button-participant').hide();
+                    $('#auth_buttons').show();
+                {% endif %}
+            }
+
+            return false;
+        }
+    </script>
+
+{% endblock %}
+

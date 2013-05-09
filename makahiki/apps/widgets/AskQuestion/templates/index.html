@@ -1,0 +1,29 @@
+{% with ask_que=view_objects.AskQuestion %}
+<div class="content-box">
+    <div class="content-box-title">
+            Question
+    </div>
+    <div class="content-box-contents">
+        Please post your question below
+       
+        <form id="ask-question" action="{% url ask_que_q %}"
+                                 method="POST">
+         {% csrf_token %}                         
+        <div class="content-box-contents">
+         <textarea rows="5" name="question"  class="field span10" {% if ask_que.question_p %}{% if not ask_que.question_p.m_user == ask_que.currentuser %} disabled="true" {% endif %} {% endif %}>{% if ask_que.question_p %} {{ ask_que.question_p.m_question }} {% endif %}</textarea>
+        </div>
+        
+        {% if ask_que.question_p.m_user == ask_que.currentuser or not ask_que.question_p%} 
+        	<input id="question-submit-button" type="submit" value="Ask" class="btn btn-widget "/>
+       	 	<input id="question-close-button" type="submit" value="Close" class="btn btn-widget "/>
+        {% endif %}
+                
+        Asked By: {{ ask_que.question_p.m_user }}
+        {{ ask_que.test }}
+        
+        </form>
+    </div>
+</div>
+{% endwith %}
+
+<script src="{{STATIC_URL}}js/help.js" type="text/javascript"></script>
